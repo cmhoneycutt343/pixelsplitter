@@ -31,8 +31,7 @@ function setup() {
   createCanvas(canv_x, canv_y);
   coin_img = loadImage('data/mariocoin-as.png'); // Load the image
   bkg_img = loadImage('data/bonusroom-ap.png'); // Load the image
-  thank_img = loadImage('data/thank.png'); // Load the image
-  hrrld_img = loadImage('data/hrrld.png'); // Load the image
+  thankshrrld_img = loadImage('data/thankshrrld.png');
   
   //colorMode(HSB, 255);
 }
@@ -86,8 +85,7 @@ function draw() {
     
 
    //draw sprites
-   split_sprite(100,100,0,4,thank_img);
-   split_sprite(300,100,30,2,hrrld_img);
+   split_sprite(100,100,0,4,thankshrrld_img);
    split_sprite(500,100,60,1,coin_img);
 
 
