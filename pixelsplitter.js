@@ -7,18 +7,21 @@
  * local server</a>.</span></em></p>
 
  */
+ 
+ p5.disableFriendlyErrors = true
+ 
 let canv_x=720;
-let canv_y=400;
+let canv_y=720;
  
 let img; // Declare variable 'img'.
 let numslices = 16;
 let origin_x=100;
 let origin_y=100;
-let img1scale = 10;
-let bkg_imgscale = 2;
+let img1scale = 12;
+let bkg_imgscale = 3;
 let xoff;
 let ampli=50;
-let period = 2;
+let period = 5;
 
 let horz_prog=0;
 let horz_progcnt=0;
@@ -31,7 +34,8 @@ function setup() {
   createCanvas(canv_x, canv_y);
   coin_img = loadImage('data/mariocoin-as.png'); // Load the image
   bkg_img = loadImage('data/bonusroom-ap.png'); // Load the image
-  thankshrrld_img = loadImage('data/thankshrrld.png');
+  chest_img = loadImage('data/chest.png');
+  bluestar_img = loadImage('data/bluestar.png');
   
   //colorMode(HSB, 255);
 }
@@ -45,25 +49,30 @@ function draw() {
       while(horz_prog<canv_x){
        let value = brightness(128);
        fill(value);
-       image(bkg_img, bkg_img.width*bkg_imgscale*horz_progcnt, bkg_img.height*bkg_imgscale*vert_progcnt, bkg_img.width*bkg_imgscale, bkg_img.height*bkg_imgscale); 
        
        noStroke();
        
        let bkgshade_ind=20*(horz_progcnt+vert_progcnt);
        let bkgshade = sin(((frameCount+bkgshade_ind)+10)/(TWO_PI*10))*100;
+        
+       //bkg_imgscale = bkgshade/10+12;
+       
+       image(bkg_img, bkg_img.width*bkg_imgscale*horz_progcnt, bkg_img.height*bkg_imgscale*vert_progcnt, bkg_img.width*bkg_imgscale, bkg_img.height*bkg_imgscale); 
+       
+       
        blendMode(DODGE);
        
-       fill(255,50+bkgshade);
+       fill(255,100+bkgshade*2);
        
        //rect(img.width*bkg_imgscale*horz_progcnt, img.height*bkg_imgscale*vert_progcnt, img.width*bkg_imgscale, img.height*bkg_imgscale);
        //circle(img.width*bkg_imgscale*horz_progcnt+img.width*bkg_imgscale/2, img.height*bkg_imgscale*vert_progcnt+img.height*bkg_imgscale/2,10);
        let cent_x=bkg_img.width*bkg_imgscale*horz_progcnt+bkg_img.width*bkg_imgscale/2;
        let cent_y=bkg_img.height*bkg_imgscale*vert_progcnt+bkg_img.height*bkg_imgscale/2;
        beginShape();
-       vertex(cent_x-38,cent_y);
-       vertex(cent_x,cent_y-38);
-       vertex(cent_x+38,cent_y);
-       vertex(cent_x,cent_y+38);
+       vertex(cent_x-19*bkg_imgscale,cent_y);
+       vertex(cent_x,cent_y-19*bkg_imgscale);
+       vertex(cent_x+19*bkg_imgscale,cent_y);
+       vertex(cent_x,cent_y+19*bkg_imgscale);
        endShape(CLOSE);
        
        blendMode(BLEND);
@@ -85,20 +94,28 @@ function draw() {
     
 
    //draw sprites
-   split_sprite(100,100,0,4,thankshrrld_img);
-   split_sprite(500,100,60,1,coin_img);
+   split_sprite(30,30,0,1,chest_img);
+   split_sprite(250,250,20,0.5,bluestar_img);
+   split_sprite(500,450,60,0.1,coin_img);
 
 
 }
 
 function split_sprite(org_x, org_y, phaseoff, pixperslice, img_in){
+   
    ampli=mouseX/10; 
+   
    period=mouseY/10;
+   
   
    for(let i=0; i < numslices; i++){
      
+     
+
      xoff = sin(((frameCount+phaseoff)+10*i)/(TWO_PI*period))*ampli;
-     //xoff=0;
+
+
+
 
      numslices=img_in.height/pixperslice;
        
