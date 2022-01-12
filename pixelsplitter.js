@@ -30,12 +30,26 @@ let vert_progcnt=0;
 
 let tint_delta=0;
 
+let song;
+let firstrun=false;
+
+function preload() {
+  song = loadSound('data/SMB3-King.mp3');
+}
+
+
 function setup() {
+  song.play();
+  
   createCanvas(canv_x, canv_y);
   coin_img = loadImage('data/mariocoin-as.png'); // Load the image
   bkg_img = loadImage('data/bonusroom-ap.png'); // Load the image
   chest_img = loadImage('data/chest.png');
   bluestar_img = loadImage('data/bluestar.png');
+  
+  
+  // 
+  // song.play();
   
   //colorMode(HSB, 255);
 }
@@ -44,6 +58,7 @@ function draw() {
    clear();
    noSmooth();
    
+  
    // background
    while(vert_prog<canv_x){
       while(horz_prog<canv_x){
