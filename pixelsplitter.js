@@ -39,7 +39,9 @@ function preload() {
 
 
 function setup() {
+  
   song.play();
+  song.loop();
   
   createCanvas(canv_x, canv_y);
   coin_img = loadImage('data/mariocoin-as.png'); // Load the image
@@ -137,4 +139,13 @@ function split_sprite(org_x, org_y, phaseoff, pixperslice, img_in){
      image(img_in, org_x+xoff, org_y+i*img_in.height/numslices*img1scale, img_in.width * img1scale, img_in.height * img1scale/numslices, 0 ,i*img_in.height/numslices, 0 , img_in.height/numslices);   
    }
  
+}
+
+function mousePressed() {
+  if (song.isPlaying()) {
+    // .isPlaying() returns a boolean
+    // song.stop();
+  } else {
+    // song.play();
+  }
 }
