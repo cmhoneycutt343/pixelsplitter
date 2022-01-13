@@ -114,6 +114,11 @@ function draw() {
    split_sprite(30,30,0,1,chest_img);
    split_sprite(250,250,20,0.5,bluestar_img);
    split_sprite(500,450,60,0.1,coin_img);
+   
+   if(song.isLoaded()&&(firstrun==false)){
+     song.play()
+     firstrun = true;
+   }
 
 
 }
@@ -143,9 +148,9 @@ function split_sprite(org_x, org_y, phaseoff, pixperslice, img_in){
 
 function mousePressed() {
   if (song.isPlaying()) {
-    // .isPlaying() returns a boolean
-    // song.stop();
+      // .isPlaying() returns a boolean
+      song.stop();
   } else {
-    // song.play();
+      song.play();
   }
 }
