@@ -71,7 +71,7 @@ function setup() {
   img_ar[4] = pixeye5_img;
   // 
   //instantiate classes
-  testbutton= new EyeButton(10,10,0,1,chest_img);
+  testbutton = new EyeButton(100,100,0,1,chest_img);
   
   
 
@@ -79,10 +79,10 @@ function setup() {
 }
 
 function draw() {
-   clear();
+
    noSmooth();
    
-   testbutton.drawButton();
+
    
    img1scale = (mouseX-canv_x/2)/30;
   
@@ -167,6 +167,7 @@ function draw() {
       }
     }
 
+       testbutton.drawButton();
 }
 
 function split_sprite(org_x, org_y, phaseoff, pixperslice, img_in){

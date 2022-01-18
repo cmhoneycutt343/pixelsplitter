@@ -8,8 +8,8 @@ class EyeButton {
   }
   
   drawButton(){
-    // image(this.img,this.x,this.y);
-    print("hello method");
+    image(this.img,this.x,this.y);
+    print("hello again");
     return 0;
   }
 }
