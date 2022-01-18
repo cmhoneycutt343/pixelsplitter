@@ -37,9 +37,9 @@ let firstrun=false;
 let ring_rad=100;
 
 let img_ar = [];
-// let img_ar[];
-// //circles
 
+let testbutton;
+// let img_ar[];
 
 function preload() {
   song = loadSound('data/cinnabarDEMO1.mp3');
@@ -54,7 +54,7 @@ function setup() {
   createCanvas(canv_x, canv_y);
   // coin_img = loadImage('data/mariocoin-as.png'); // Load the image
   bkg_img = loadImage('data/bonusroom-ap.png'); // Load the image
-  // chest_img = loadImage('data/chest.png');
+  chest_img = loadImage('data/chest.png');
   // bluestar_img = loadImage('data/bluestar.png');
   // pixeye1_img = loadImage('data/lowpixeye1.png');
   
@@ -70,14 +70,19 @@ function setup() {
   img_ar[3] = pixeye4_img;
   img_ar[4] = pixeye5_img;
   // 
-  // song.play();
+  //instantiate classes
+  testbutton= new EyeButton(10,10,0,1,chest_img);
   
-  //colorMode(HSB, 255);
+  
+
+
 }
 
 function draw() {
    clear();
    noSmooth();
+   
+   testbutton.drawButton();
    
    img1scale = (mouseX-canv_x/2)/30;
   
