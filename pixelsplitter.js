@@ -42,14 +42,14 @@ let img_ar = [];
 
 
 function preload() {
-  // song = loadSound('data/SMB3-King.mp3');
+  song = loadSound('data/cinnabarDEMO1.mp3');
 }
 
 
 function setup() {
-  
-  // song.play();
-  // song.loop();
+  // 
+  song.play();
+  song.loop();
   
   createCanvas(canv_x, canv_y);
   // coin_img = loadImage('data/mariocoin-as.png'); // Load the image
