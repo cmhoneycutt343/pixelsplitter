@@ -39,6 +39,8 @@ let ring_rad=100;
 let img_ar = [];
 
 let testbutton;
+let ringbutton_ar=[];
+let buttonmast_ar=[];
 // let img_ar[];
 
 function preload() {
@@ -73,6 +75,18 @@ function setup() {
   //instantiate classes
   testbutton = new EyeButton(100,100,0,1,chest_img);
   
+  for (let j=0; j<3; j++){
+    for (let i=0; i<5; i++){
+      // button_ar[i] = new EyeButton(100,100,0,1,chest_img);
+      
+      ringbutton_ar[i] = new EyeButton(100,100,0,1,chest_img);
+      
+      
+      
+    }
+    
+    buttonmast_ar.push(ringbutton_ar);
+  }
   
 
 
@@ -163,11 +177,30 @@ function draw() {
 
        // tint(244,0,0);
         split_sprite(cent_x,cent_y,0,1,img_ar[i]);
+        
+        if((j==0)){
+          // testbutton.x = cent_x;
+          // testbutton.y = cent_y; 
+          //  testbutton.drawButton();    
+            // button_ar[i].x = cent_x;
+            // button_ar[i].y = cent_y; 
+            // button_ar[i].drawButton();    
+        }
+        
+        buttonmast_ar[j][i].x = cent_x;
+        buttonmast_ar[j][i].y = cent_y; 
+        buttonmast_ar[j][i].drawButton();   
+        
+        // if(j==2)){
+        //   button_ar[i].x = cent_x;
+        //   button_ar[i].y = cent_y; 
+        //   button_ar[i].drawButton();    
+        // }
         //noTint();
       }
     }
 
-       testbutton.drawButton();
+       
 }
 
 function split_sprite(org_x, org_y, phaseoff, pixperslice, img_in){
