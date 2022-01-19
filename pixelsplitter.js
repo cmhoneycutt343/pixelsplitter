@@ -26,7 +26,7 @@ let ampli=8;
 let period = 4.5;
 
 let ring_count =3;
-let ring_num = 4;
+let ring_num = 7;
 let T_one = 1000;
 let T_two = 1000;
 
@@ -88,7 +88,7 @@ function setup() {
     for (let i=0; i<ring_num; i++){
       // button_ar[i] = new EyeButton(100,100,0,1,chest_img);
       
-      ringbutton_ar[i] = new EyeButton(100,100,0,1,img_ar[i],but1scale);
+      ringbutton_ar[i] = new EyeButton(100,100,0,1,img_ar[i%5],but1scale);
       
       buttonmast_ar[i+j*ring_num] = ringbutton_ar[i];
       
@@ -179,8 +179,8 @@ function draw() {
        let x_off = ring_rad*(j+1) * sin((i/ring_num+frameCount*rot_dir/T_one)*TWO_PI);
        let y_off = ring_rad*(j+1) * cos((i/ring_num+frameCount*rot_dir/T_two)*TWO_PI);
 
-       let cent_x=canv_x/2-(img_ar[i].width*img1scale/2)+x_off;
-       let cent_y=canv_y/2-(img_ar[i].height*img1scale/2)+y_off;
+       let cent_x=canv_x/2-(img_ar[i%5].width*img1scale/2)+x_off;
+       let cent_y=canv_y/2-(img_ar[i%5].height*img1scale/2)+y_off;
 
         //update and draw chests
         let temp_ar = buttonmast_ar[j];
@@ -237,23 +237,22 @@ function mousePressed() {
   for(let j=0; j<ring_count; j++){
     for(let i=0; i <ring_num; i++){
       
-      var cent_x=(img_ar[i].width*but1scale/2)+buttonmast_ar[i+j*ring_num].x;
-      var cent_y=(img_ar[i].height*but1scale/2)+buttonmast_ar[i+j*ring_num].y;
+      var cent_x=(img_ar[i%5].width*but1scale/2)+buttonmast_ar[i+j*ring_num].x;
+      var cent_y=(img_ar[i%5].height*but1scale/2)+buttonmast_ar[i+j*ring_num].y;
 
       
       let dist = Math.sqrt((mouseX-cent_x) ** 2 + (mouseY-cent_y) ** 2)
 
   
-      if(dist<40){
-        buttonmast_ar[i+j*ring_num].img = pixeyeclosed_img;
-  
-        print("i:");
-        print(i);
-        print("j:");
-        print(j);
-        print("dist:");
-        print(dist);
-      }
+      if(dist<30){
+        if(buttonmast_ar[i+j*ring_num].isopen==true){
+           buttonmast_ar[i+j*ring_num].img = pixeyeclosed_img;
+           buttonmast_ar[i+j*ring_num].isopen=false;
+         } else {
+           buttonmast_ar[i+j*ring_num].img = img_ar[i%5];
+           buttonmast_ar[i+j*ring_num].isopen=true;
+         }
       }
     }
+  }
 }
