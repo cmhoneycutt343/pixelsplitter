@@ -24,8 +24,9 @@ let draw_bkg=true;
 let xoff;
 let ampli=8;
 let period = 4.5;
+let ringphs_shift=0;
 
-let cellsize = 4; //
+let cellsize = 2; //
 
 let ring_count = 4;
 let ring_num = 5;
@@ -113,7 +114,7 @@ function setup() {
   
 
   //setup array of open or closed eyes
-  let eye_status=[ring_count*ring_num];
+  //let eye_status=[ring_count*ring_num];
 
 }
 
@@ -228,8 +229,8 @@ function draw() {
          rot_dir = 1;
        }
    
-       let x_off = ring_rad*(j+1) * sin((i/ring_num+frameCount*rot_dir/T_one)*TWO_PI);
-       let y_off = ring_rad*(j+1) * cos((i/ring_num+frameCount*rot_dir/T_two)*TWO_PI);
+       let x_off = ring_rad*(j+1) * sin((i/ring_num+(frameCount+j*ringphs_shift)*rot_dir/T_one)*TWO_PI);
+       let y_off = ring_rad*(j+1) * cos((i/ring_num+(frameCount+j*ringphs_shift)*rot_dir/T_two)*TWO_PI);
    
        let cent_x=canv_x/2-(img_ar[i%5].width*img1scale/2)+x_off+30;
        let cent_y=canv_y/2-(img_ar[i%5].height*img1scale/2)+y_off+15;
