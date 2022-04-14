@@ -10,7 +10,7 @@
  
  p5.disableFriendlyErrors = true
  
-let canv_x=768;
+let canv_x=1024;
 let canv_y=768;
  
 let img; // Declare variable 'img'.
@@ -24,6 +24,8 @@ let draw_bkg=true;
 let xoff;
 let ampli=8;
 let period = 4.5;
+
+let cellsize = 4; //
 
 let ring_count =3;
 let ring_num = 7;
@@ -48,6 +50,10 @@ let testbutton;
 let ringbutton_ar=[];
 let buttonmast_ar=[];
 let buttonmast2d_ar=[];
+
+let eye_status=[];
+let closedeye_indices=[];
+let closed_count;
 // let img_ar[];
 
 function preload() {
@@ -60,14 +66,14 @@ function setup() {
   song.play();
   song.loop();
   
+  //create ca
   createCanvas(canv_x, canv_y);
-  // coin_img = loadImage('data/mariocoin-as.png'); // Load the image
+
+  //load images
   bkg_img = loadImage('data/bonusroom-ap.png'); // Load the image
   chest_img = loadImage('data/chest.png');
   chestopen_img = loadImage('data/chest-open.png');
   bluestar_img = loadImage('data/bluestar.png');
-  // pixeye1_img = loadImage('data/lowpixeye1.png');
-  
   pixeye1_img = loadImage('data/lowpixeye1.png');
   pixeye2_img = loadImage('data/lowpixeye2.png');
   pixeye3_img = loadImage('data/lowpixeye3.png');
@@ -84,22 +90,21 @@ function setup() {
   //instantiate classes
   testbutton = new EyeButton(100,100,0,1,chest_img);
   
-  for (let j=0; j<ring_count; j++){
-    for (let i=0; i<ring_num; i++){
-      // button_ar[i] = new EyeButton(100,100,0,1,chest_img);
-      
+  for (let j=0; j<ring_count; j++)
+  {
+    for (let i=0; i<ring_num; i++)
+    {
+
       ringbutton_ar[i] = new EyeButton(100,100,0,1,img_ar[i%5],but1scale);
       
       buttonmast_ar[i+j*ring_num] = ringbutton_ar[i];
-      
-      // buttonmast2d_ar[j][i]=ringbutton_ar[i];
     }
-    
     buttonmast2d_ar[j]=ringbutton_ar;
-    
   }
   
 
+  //setup array of open or closed eyes
+  let eye_status=[ring_count*ring_num];
 
 }
 
@@ -107,18 +112,14 @@ function draw() {
 
    noSmooth();
    
-
-   
-   // img1scale = (mouseX-canv_x/2)/30;
-  
    if(draw_bkg==true){
    while(vert_prog<canv_x){
       while(horz_prog<canv_x){
-       let value = brightness(128);
+       let value = brightness(80);
        
        colorMode(RGB,255);
-       let red_color = color(255,0,0);
-       fill(red_color);
+       // let red_color = color(255,0,0);
+       // fill(red_color);
    
        noStroke();
    
@@ -132,7 +133,7 @@ function draw() {
    
        //blendMode(DODGE);
    
-       fill(255,0,0,100+bkgshade*2);
+       fill(128,0,0,100+bkgshade*2);
    
        //rect(img.width*bkg_imgscale*horz_progcnt, img.height*bkg_imgscale*vert_progcnt, img.width*bkg_imgscale, img.height*bkg_imgscale);
        //circle(img.width*bkg_imgscale*horz_progcnt+img.width*bkg_imgscale/2, img.height*bkg_imgscale*vert_progcnt+img.height*bkg_imgscale/2,10);
@@ -164,39 +165,82 @@ function draw() {
    vert_prog=0;
  }
     
+   
+   
+   closed_count=0;
+   //update the 'closed eye' matrix
+   //and counts eyes that are closed
+   closedeye_indices.fill(0);
+   for(let j=0; j<ring_count; j++)
+   {
+     for(let i=0; i <ring_num; i++)
+     {
+       if(buttonmast_ar[i+j*ring_num].isopen==false)
+       {
+         eye_status[i+j*ring_num]=1;
+         closedeye_indices[closed_count]=i+j*ring_num;
+         closed_count++;
+         
+       }
+       else 
+       {
+         eye_status[i+j*ring_num]=0;
+       }
+     }
+   }
+   
+   
+   for(let i=0; i<closed_count;i++)
+   {
+     for(let j=0; j<closed_count;j++)
+     {
+         eye_cellx1=int((buttonmast_ar[closedeye_indices[i]].x+30)/cellsize);
+         eye_celly1=int((buttonmast_ar[closedeye_indices[i]].y+30)/cellsize);
+         
+         eye_cellx2=int((buttonmast_ar[closedeye_indices[j]].x+30)/cellsize);
+         eye_celly2=int((buttonmast_ar[closedeye_indices[j]].y+30)/cellsize);
+         
+         breshhamlerp(eye_cellx1,eye_celly1,eye_cellx2,eye_celly2);
+
+     }
+   }
+
+
 
    //draw sprites
    for(let j=0; j<ring_count; j++){
      for(let i=0; i <ring_num; i++){
       let rot_dir = -1;
-
+   
        if(j%2==0){
          rot_dir = -1;
        } else {
          rot_dir = 1;
        }
-       
+   
        let x_off = ring_rad*(j+1) * sin((i/ring_num+frameCount*rot_dir/T_one)*TWO_PI);
        let y_off = ring_rad*(j+1) * cos((i/ring_num+frameCount*rot_dir/T_two)*TWO_PI);
-
-       let cent_x=canv_x/2-(img_ar[i%5].width*img1scale/2)+x_off;
-       let cent_y=canv_y/2-(img_ar[i%5].height*img1scale/2)+y_off;
-
-        //update and draw chests
+   
+       let cent_x=canv_x/2-(img_ar[i%5].width*img1scale/2)+x_off+30;
+       let cent_y=canv_y/2-(img_ar[i%5].height*img1scale/2)+y_off+15;
+   
+        //update and draw eyes
         let temp_ar = buttonmast_ar[j];
-        
+   
         buttonmast_ar[i+j*ring_num].x = cent_x;
         buttonmast_ar[i+j*ring_num].y = cent_y; 
-        buttonmast_ar[i+j*ring_num].drawButton();
         
+        buttonmast_ar[i+j*ring_num].drawButton();
+   
         // buttonmast2d_ar[j][i].x = cent_x;
         // buttonmast2d_ar[j][i].y = cent_y; 
         // buttonmast2d_ar[j][i].drawButton();
       }
     }
-
-       
 }
+
+
+
 
 function split_sprite(org_x, org_y, phaseoff, pixperslice, img_in){
    
@@ -229,10 +273,27 @@ function mousePressed() {
   //     song.play();
   // }
   
-  print("mouseX");
-  print(mouseX);
-  print("mouseY");
-  print(mouseY);
+  // print("mouseX");
+  // print(mouseX);
+  // print("mouseY");
+  // print(mouseY);
+  
+  // print("closed_count");
+  // print(closed_count);
+  // for(let j=0; j<ring_count; j++)
+  // {
+  //   for(let i=0; i <ring_num; i++)
+  //   {
+  //     if(eye_status[i+j*ring_num]==1)
+  //     {
+  //       print("count");
+  //       print(i);
+  //       print("ring");
+  //       print(j);
+  //     }
+  //   }
+  // }
+
   
   for(let j=0; j<ring_count; j++){
     for(let i=0; i <ring_num; i++){
@@ -256,3 +317,65 @@ function mousePressed() {
     }
   }
 }
+
+function drawcell(x_pos, y_pos)
+{
+  fill(255);
+  rectMode(CORNER);
+  rect(x_pos*cellsize,y_pos*cellsize,cellsize,cellsize);
+}
+
+function breshhamlerp(x0,y0,x1,y1)
+{ 
+  
+  
+  drawcell(x0,y0);
+  drawcell(x1,y1);
+  
+  
+  let dx = abs(x1 - x0);
+  let sx = x0 < x1 ? 1 : -1;
+  let dy = -abs(y1 - y0);
+  let sy = y0 < y1 ? 1 : -1;
+  let error = dx + dy;
+  
+  while(1)
+  {
+    drawcell(x0,y0);
+    if (x0 == x1 && y0 == y1) {break;};
+    let e2 = 2 * error;
+    
+    if(e2 >= dy)
+    {
+      if (x0 == x1) {break;};
+      error = error + dy;
+      x0 = x0 + sx;
+    }
+    if(e2 <= dx)
+    {
+      if (y0 == y1) {break;};
+      error = error + dx;
+      y0 = y0 + sy;
+    }
+    
+    // break;
+  }
+  
+  // let iters = abs(x1 - x0);
+  // for(let i=0;i<iters;i++)
+  // {
+  //   drawcell(i+x0,y)
+  // 
+  //   if(D>0)
+  //   {
+  //     y=y+1;
+  //     D=D-(2*dx);
+  //   } 
+  //   D=D+(2*dy);
+  // 
+  // }
+
+  
+  
+}
+
