@@ -27,8 +27,8 @@ let period = 4.5;
 
 let cellsize = 4; //
 
-let ring_count = 3;
-let ring_num = 7;
+let ring_count = 4;
+let ring_num = 5;
 let T_one = 1000;
 let T_two = 1000;
 
@@ -55,21 +55,12 @@ let eye_status=[];
 let closedeye_indices=[];
 let closed_count;
 // let img_ar[];
+let issongplaying = false;
+let canonmode=true;
 
 function preload() {
   song = loadSound('data/cinnabarDEMO1.mp3');
-}
-
-
-function setup() {
-  // 
-  song.play();
-  song.loop();
   
-  //create ca
-  createCanvas(canv_x, canv_y);
-
-  //load images
   bkg_img = loadImage('data/bonusroom-ap.png'); // Load the image
   chest_img = loadImage('data/chest.png');
   chestopen_img = loadImage('data/chest-open.png');
@@ -80,6 +71,24 @@ function setup() {
   pixeye4_img = loadImage('data/lowpixeye4.png');
   pixeye5_img = loadImage('data/lowpixeye5.png');
   pixeyeclosed_img = loadImage('data/lowpixeye-closed.png');
+}
+
+
+function setup() {
+  // 
+  if((!issongplaying)||(canonmode))
+  {
+    song.play();
+    song.loop();
+    issongplaying=true;
+  }
+  
+  
+  //create ca
+  createCanvas(canv_x, canv_y);
+
+  //load images
+
   
   img_ar[0] = pixeye1_img;
   img_ar[1] = pixeye2_img;
@@ -378,5 +387,33 @@ function breshhamlerp(x0,y0,x1,y1)
 
   
   
+}
+
+function keyPressed() {
+  if (keyCode === LEFT_ARROW) {
+    if(ring_count<4)
+    {
+      ring_count++;
+    }
+  } else if (keyCode === RIGHT_ARROW) {
+    if(ring_count>1)
+    {
+      ring_count--;
+    }
+  }
+  else if (keyCode === DOWN_ARROW) {
+    if(ring_num>2)
+    {
+      ring_num--;
+    }
+  }
+  else if (keyCode === UP_ARROW) {
+    if(ring_num<9)
+    {
+      ring_num++;
+    }
+  }
+  
+  setup();
 }
 
