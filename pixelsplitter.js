@@ -56,7 +56,7 @@ let closedeye_indices=[];
 let closed_count;
 // let img_ar[];
 let issongplaying = false;
-let canonmode=true;
+let canonmode=false;
 
 function preload() {
   song = loadSound('data/cinnabarDEMO1.mp3');
