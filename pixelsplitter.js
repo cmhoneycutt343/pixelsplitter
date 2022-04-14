@@ -27,7 +27,7 @@ let period = 4.5;
 
 let cellsize = 4; //
 
-let ring_count =3;
+let ring_count = 3;
 let ring_num = 7;
 let T_one = 1000;
 let T_two = 1000;
@@ -177,10 +177,9 @@ function draw() {
      {
        if(buttonmast_ar[i+j*ring_num].isopen==false)
        {
-         eye_status[i+j*ring_num]=1;
-         closedeye_indices[closed_count]=i+j*ring_num;
-         closed_count++;
-         
+           eye_status[i+j*ring_num]=1;
+           closedeye_indices[closed_count]=i+j*ring_num;
+           closed_count++;
        }
        else 
        {
@@ -194,6 +193,8 @@ function draw() {
    {
      for(let j=0; j<closed_count;j++)
      {
+       if(int(closedeye_indices[i]/ring_num) == int(closedeye_indices[j]/ring_num))
+       {
          eye_cellx1=int((buttonmast_ar[closedeye_indices[i]].x+30)/cellsize);
          eye_celly1=int((buttonmast_ar[closedeye_indices[i]].y+30)/cellsize);
          
@@ -201,7 +202,7 @@ function draw() {
          eye_celly2=int((buttonmast_ar[closedeye_indices[j]].y+30)/cellsize);
          
          breshhamlerp(eye_cellx1,eye_celly1,eye_cellx2,eye_celly2);
-
+       }
      }
    }
 
