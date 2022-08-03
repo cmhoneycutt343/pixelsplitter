@@ -14,11 +14,8 @@ let canv_x=1024;
 let canv_y=768;
  
 let img; // Declare variable 'img'.
-let numslices = 16;
-let origin_x=100;
-let origin_y=100;
 let img1scale = 8;
-let but1scale = 4;
+let but1scale = 0.5;
 let bkg_imgscale = 3;
 let draw_bkg=true;
 let xoff;
@@ -62,16 +59,24 @@ let canonmode=false;
 function preload() {
   song = loadSound('data/cinnabarDEMO1.mp3');
   
-  bkg_img = loadImage('data/bonusroom-ap.png'); // Load the image
+  bkg_img = loadImage('data/whitebackground.png'); // Load the image
   chest_img = loadImage('data/chest.png');
   chestopen_img = loadImage('data/chest-open.png');
   bluestar_img = loadImage('data/bluestar.png');
-  pixeye1_img = loadImage('data/lowpixeye1.png');
-  pixeye2_img = loadImage('data/lowpixeye2.png');
-  pixeye3_img = loadImage('data/lowpixeye3.png');
-  pixeye4_img = loadImage('data/lowpixeye4.png');
-  pixeye5_img = loadImage('data/lowpixeye5.png');
-  pixeyeclosed_img = loadImage('data/lowpixeye-closed.png');
+  
+  // pixeye1_img = loadImage('data/lowpixeye1.png');
+  // pixeye2_img = loadImage('data/lowpixeye2.png');
+  // pixeye3_img = loadImage('data/lowpixeye3.png');
+  // pixeye4_img = loadImage('data/lowpixeye4.png');
+  // pixeye5_img = loadImage('data/lowpixeye5.png');
+  
+  pixeye1_img = loadImage('data/amyeye-small.png');
+  pixeye2_img = loadImage('data/amyeye-small.png');
+  pixeye3_img = loadImage('data/amyeye-small.png');
+  pixeye4_img = loadImage('data/amyeye-small.png');
+  pixeye5_img = loadImage('data/amyeye-small.png');
+  
+  pixeyeclosed_img = loadImage('data/amyeye-smallclosed.png');
 }
 
 
@@ -149,11 +154,11 @@ function draw() {
        //circle(img.width*bkg_imgscale*horz_progcnt+img.width*bkg_imgscale/2, img.height*bkg_imgscale*vert_progcnt+img.height*bkg_imgscale/2,10);
        let cent_x=bkg_img.width*bkg_imgscale*horz_progcnt+bkg_img.width*bkg_imgscale/2;
        let cent_y=bkg_img.height*bkg_imgscale*vert_progcnt+bkg_img.height*bkg_imgscale/2;
-       beginShape();
-       vertex((cent_x-10),cent_y-90);
-       vertex((cent_x-10),cent_y-100);
-       vertex((cent_x-2),cent_y-100);
-       vertex((cent_x-2),cent_y-90);
+       // beginShape();
+       // vertex((cent_x-10),cent_y-90);
+       // vertex((cent_x-10),cent_y-100);
+       // vertex((cent_x-2),cent_y-100);
+       // vertex((cent_x-2),cent_y-90);
 
 
        endShape(CLOSE);
@@ -199,6 +204,7 @@ function draw() {
    }
    
    
+   //scan all closed eyes and draw lines between them
    for(let i=0; i<closed_count;i++)
    {
      for(let j=0; j<closed_count;j++)
@@ -219,10 +225,14 @@ function draw() {
 
 
    //draw sprites
+   //for each ring...
    for(let j=0; j<ring_count; j++){
+     //for each element in a ring...
      for(let i=0; i <ring_num; i++){
+      
       let rot_dir = -1;
    
+      //direction of rotation
        if(j%2==0){
          rot_dir = -1;
        } else {
@@ -232,9 +242,17 @@ function draw() {
        let x_off = ring_rad*(j+1) * sin((i/ring_num+(frameCount+j*ringphs_shift)*rot_dir/T_one)*TWO_PI);
        let y_off = ring_rad*(j+1) * cos((i/ring_num+(frameCount+j*ringphs_shift)*rot_dir/T_two)*TWO_PI);
    
-       let cent_x=canv_x/2-(img_ar[i%5].width*img1scale/2)+x_off+30;
-       let cent_y=canv_y/2-(img_ar[i%5].height*img1scale/2)+y_off+15;
+       //determin the center of the eye to be drawn
+       let cent_x=canv_x/2-(img_ar[i%5].width*but1scale/2)+x_off;
+       let cent_y=canv_y/2-(img_ar[i%5].height*but1scale/2)+y_off;
+       
+       // let cent_x=canv_x/2+x_off;
+       // let cent_y=canv_y/2+y_off-15;
+       // 
    
+   
+   
+   // but1scale
         //update and draw eyes
         let temp_ar = buttonmast_ar[j];
    
@@ -331,7 +349,7 @@ function mousePressed() {
 
 function drawcell(x_pos, y_pos)
 {
-  fill(255);
+  fill(0);
   rectMode(CORNER);
   rect(x_pos*cellsize,y_pos*cellsize,cellsize,cellsize);
 }
