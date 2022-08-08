@@ -23,7 +23,7 @@ let ampli=8;
 let period = 4.5;
 let ringphs_shift=0;
 
-let cellsize = 2; //
+let cellsize = 3; //
 
 let ring_count = 4;
 let ring_num = 5;
@@ -77,6 +77,7 @@ function preload() {
   pixeye5_img = loadImage('data/amyeye-small-3b.png');
   
   pixeye_prime = loadImage('data/amyeye3-wc.png');
+  pixeye_primeclosed = loadImage('data/amyeye3r-blank.png');
   
   pixeyeclosed_img = loadImage('data/1x1black.png');
 }
@@ -114,7 +115,7 @@ function setup() {
 
       if((i==0)&(j==0))
       {
-        ringbutton_ar[i] = new EyeButton(100,100,0,1,pixeye_prime,but1scale);
+        ringbutton_ar[i] = new EyeButton(100,100,0,1,pixeye_primeclosed,but1scale);
       }
       else 
       {
@@ -223,11 +224,11 @@ function draw() {
      {
        if(int(closedeye_indices[i]/ring_num) == int(closedeye_indices[j]/ring_num))
        {
-         eye_cellx1=int((buttonmast_ar[closedeye_indices[i]].x+30)/cellsize);
-         eye_celly1=int((buttonmast_ar[closedeye_indices[i]].y+30)/cellsize);
+         eye_cellx1=int((buttonmast_ar[closedeye_indices[i]].x+50)/cellsize);
+         eye_celly1=int((buttonmast_ar[closedeye_indices[i]].y+27)/cellsize);
          
-         eye_cellx2=int((buttonmast_ar[closedeye_indices[j]].x+30)/cellsize);
-         eye_celly2=int((buttonmast_ar[closedeye_indices[j]].y+30)/cellsize);
+         eye_cellx2=int((buttonmast_ar[closedeye_indices[j]].x+50)/cellsize);
+         eye_celly2=int((buttonmast_ar[closedeye_indices[j]].y+27)/cellsize);
          
          breshhamlerp(eye_cellx1,eye_celly1,eye_cellx2,eye_celly2);
        }
@@ -251,6 +252,7 @@ function draw() {
          rot_dir = 1;
        }
    
+       
        let x_off = ring_rad*(j+1) * sin((i/ring_num+(frameCount+j*ringphs_shift)*rot_dir/T_one)*TWO_PI);
        let y_off = ring_rad*(j+1) * cos((i/ring_num+(frameCount+j*ringphs_shift)*rot_dir/T_two)*TWO_PI);
    
@@ -348,14 +350,25 @@ function mousePressed() {
   
       if(dist<30){
         if(buttonmast_ar[i+j*ring_num].isopen==true){
-           buttonmast_ar[i+j*ring_num].img = pixeyeclosed_img;
+           // buttonmast_ar[i+j*ring_num].img = pixeyeclosed_img;
+           
+           if((i==0)&(j==0))
+           {
+             buttonmast_ar[i+j*ring_num].img = pixeye_prime;
+           }
+           else 
+           {
+             buttonmast_ar[i+j*ring_num].img = pixeyeclosed_img;
+           }
+           
+           
            buttonmast_ar[i+j*ring_num].isopen=false;
          } else {
            // buttonmast_ar[i+j*ring_num].img = img_ar[i%5];
            
            if((i==0)&(j==0))
            {
-             buttonmast_ar[i+j*ring_num].img = pixeye_prime;
+             buttonmast_ar[i+j*ring_num].img = pixeye_primeclosed;
            }
            else 
            {
