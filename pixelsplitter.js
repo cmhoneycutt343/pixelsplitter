@@ -70,24 +70,26 @@ function preload() {
   // pixeye4_img = loadImage('data/lowpixeye4.png');
   // pixeye5_img = loadImage('data/lowpixeye5.png');
   
-  pixeye1_img = loadImage('data/amyeye-small.png');
-  pixeye2_img = loadImage('data/amyeye-small.png');
-  pixeye3_img = loadImage('data/amyeye-small.png');
-  pixeye4_img = loadImage('data/amyeye-small.png');
-  pixeye5_img = loadImage('data/amyeye-small.png');
+  pixeye1_img = loadImage('data/amyeye-small-3b.png');
+  pixeye2_img = loadImage('data/amyeye-small-3b.png');
+  pixeye3_img = loadImage('data/amyeye-small-3b.png');
+  pixeye4_img = loadImage('data/amyeye-small-3b.png');
+  pixeye5_img = loadImage('data/amyeye-small-3b.png');
   
-  pixeyeclosed_img = loadImage('data/amyeye-smallclosed.png');
+  pixeye_prime = loadImage('data/amyeye3-wc.png');
+  
+  pixeyeclosed_img = loadImage('data/1x1black.png');
 }
 
 
 function setup() {
   // 
-  if((!issongplaying)||(canonmode))
-  {
-    song.play();
-    song.loop();
-    issongplaying=true;
-  }
+  // if((!issongplaying)||(canonmode))
+  // {
+  //   song.play();
+  //   song.loop();
+  //   issongplaying=true;
+  // }
   
   
   //create ca
@@ -110,7 +112,16 @@ function setup() {
     for (let i=0; i<ring_num; i++)
     {
 
-      ringbutton_ar[i] = new EyeButton(100,100,0,1,img_ar[i%5],but1scale);
+      if((i==0)&(j==0))
+      {
+        ringbutton_ar[i] = new EyeButton(100,100,0,1,pixeye_prime,but1scale);
+      }
+      else 
+      {
+        ringbutton_ar[i] = new EyeButton(100,100,0,1,pixeye1_img,but1scale);
+      }
+
+
       
       buttonmast_ar[i+j*ring_num] = ringbutton_ar[i];
     }
@@ -125,7 +136,7 @@ function setup() {
 
 function draw() {
 
-   noSmooth();
+   //noSmooth();
    
    if(draw_bkg==true){
    while(vert_prog<canv_x){
@@ -137,7 +148,7 @@ function draw() {
        // fill(red_color);
    
        noStroke();
-   
+
        let bkgshade_ind=20*(horz_progcnt+vert_progcnt);
        let bkgshade = sin(((frameCount+bkgshade_ind)+10)/(TWO_PI*10))*100;
    
@@ -148,7 +159,8 @@ function draw() {
    
        //blendMode(DODGE);
    
-       fill(128,0,0,100+bkgshade*2);
+       // fill(128,0,0,100+bkgshade*2);
+       background(0,0,0);
    
        //rect(img.width*bkg_imgscale*horz_progcnt, img.height*bkg_imgscale*vert_progcnt, img.width*bkg_imgscale, img.height*bkg_imgscale);
        //circle(img.width*bkg_imgscale*horz_progcnt+img.width*bkg_imgscale/2, img.height*bkg_imgscale*vert_progcnt+img.height*bkg_imgscale/2,10);
@@ -339,7 +351,16 @@ function mousePressed() {
            buttonmast_ar[i+j*ring_num].img = pixeyeclosed_img;
            buttonmast_ar[i+j*ring_num].isopen=false;
          } else {
-           buttonmast_ar[i+j*ring_num].img = img_ar[i%5];
+           // buttonmast_ar[i+j*ring_num].img = img_ar[i%5];
+           
+           if((i==0)&(j==0))
+           {
+             buttonmast_ar[i+j*ring_num].img = pixeye_prime;
+           }
+           else 
+           {
+             buttonmast_ar[i+j*ring_num].img = img_ar[i%5];
+           }
            buttonmast_ar[i+j*ring_num].isopen=true;
          }
       }
@@ -349,7 +370,7 @@ function mousePressed() {
 
 function drawcell(x_pos, y_pos)
 {
-  fill(0);
+  fill(255);
   rectMode(CORNER);
   rect(x_pos*cellsize,y_pos*cellsize,cellsize,cellsize);
 }
