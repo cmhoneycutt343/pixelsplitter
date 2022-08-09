@@ -59,7 +59,7 @@ let canonmode=false;
 function preload() {
   song = loadSound('data/cinnabarDEMO1.mp3');
   
-  bkg_img = loadImage('data/whitebackground.png'); // Load the image
+  bkg_img = loadImage('data/mountains.jpg'); // Load the image
   chest_img = loadImage('data/chest.png');
   chestopen_img = loadImage('data/chest-open.png');
   bluestar_img = loadImage('data/bluestar.png');
@@ -84,21 +84,10 @@ function preload() {
 
 
 function setup() {
-  // 
-  // if((!issongplaying)||(canonmode))
-  // {
-  //   song.play();
-  //   song.loop();
-  //   issongplaying=true;
-  // }
-  
-  
-  //create ca
+
   createCanvas(canv_x, canv_y);
 
   //load images
-
-  
   img_ar[0] = pixeye1_img;
   img_ar[1] = pixeye2_img;
   img_ar[2] = pixeye3_img;
@@ -108,11 +97,12 @@ function setup() {
   //instantiate classes
   testbutton = new EyeButton(100,100,0,1,chest_img);
   
+  
+  //create buttons for each eye
   for (let j=0; j<ring_count; j++)
   {
     for (let i=0; i<ring_num; i++)
     {
-
       if((i==0)&(j==0))
       {
         ringbutton_ar[i] = new EyeButton(100,100,0,1,pixeye_primeclosed,but1scale);
@@ -121,84 +111,26 @@ function setup() {
       {
         ringbutton_ar[i] = new EyeButton(100,100,0,1,pixeye1_img,but1scale);
       }
-
-
-      
       buttonmast_ar[i+j*ring_num] = ringbutton_ar[i];
     }
     buttonmast2d_ar[j]=ringbutton_ar;
   }
-  
-
-  //setup array of open or closed eyes
-  //let eye_status=[ring_count*ring_num];
-
 }
 
 function draw() {
 
-   //noSmooth();
-   
+   //load background
    if(draw_bkg==true){
-   while(vert_prog<canv_x){
-      while(horz_prog<canv_x){
-       let value = brightness(80);
-       
-       colorMode(RGB,255);
-       // let red_color = color(255,0,0);
-       // fill(red_color);
-   
-       noStroke();
-
-       let bkgshade_ind=20*(horz_progcnt+vert_progcnt);
-       let bkgshade = sin(((frameCount+bkgshade_ind)+10)/(TWO_PI*10))*100;
-   
-       //bkg_imgscale = bkgshade/10+12;
-   
-       image(bkg_img, bkg_img.width*bkg_imgscale*horz_progcnt, bkg_img.height*bkg_imgscale*vert_progcnt, bkg_img.width*bkg_imgscale, bkg_img.height*bkg_imgscale); 
-   
-   
-       //blendMode(DODGE);
-   
-       // fill(128,0,0,100+bkgshade*2);
-       background(0,0,0);
-   
-       //rect(img.width*bkg_imgscale*horz_progcnt, img.height*bkg_imgscale*vert_progcnt, img.width*bkg_imgscale, img.height*bkg_imgscale);
-       //circle(img.width*bkg_imgscale*horz_progcnt+img.width*bkg_imgscale/2, img.height*bkg_imgscale*vert_progcnt+img.height*bkg_imgscale/2,10);
-       let cent_x=bkg_img.width*bkg_imgscale*horz_progcnt+bkg_img.width*bkg_imgscale/2;
-       let cent_y=bkg_img.height*bkg_imgscale*vert_progcnt+bkg_img.height*bkg_imgscale/2;
-       // beginShape();
-       // vertex((cent_x-10),cent_y-90);
-       // vertex((cent_x-10),cent_y-100);
-       // vertex((cent_x-2),cent_y-100);
-       // vertex((cent_x-2),cent_y-90);
-
-
-       endShape(CLOSE);
-   
-       blendMode(BLEND);
-   
-       horz_progcnt=horz_progcnt+1;
-       horz_prog=bkg_img.width*bkg_imgscale+horz_prog;
-   
-   
-     }
-     horz_progcnt=0;
-     horz_prog=0;
-   
-     vert_progcnt=vert_progcnt+1;
-     vert_prog=bkg_img.width*bkg_imgscale+vert_prog;
+     image(bkg_img, 0,0,canv_x, canv_y);
    }
-   vert_progcnt=0;
-   vert_prog=0;
- }
-    
-   
+ // 
    
    closed_count=0;
    //update the 'closed eye' matrix
    //and counts eyes that are closed
    closedeye_indices.fill(0);
+   
+   //scan all buttons to see which ones are closed
    for(let j=0; j<ring_count; j++)
    {
      for(let i=0; i <ring_num; i++)
@@ -222,11 +154,14 @@ function draw() {
    {
      for(let j=0; j<closed_count;j++)
      {
+       //determine if a line is to be drawn
        if(int(closedeye_indices[i]/ring_num) == int(closedeye_indices[j]/ring_num))
        {
+         //start line
          eye_cellx1=int((buttonmast_ar[closedeye_indices[i]].x+50)/cellsize);
          eye_celly1=int((buttonmast_ar[closedeye_indices[i]].y+27)/cellsize);
-         
+
+         //end line
          eye_cellx2=int((buttonmast_ar[closedeye_indices[j]].x+50)/cellsize);
          eye_celly2=int((buttonmast_ar[closedeye_indices[j]].y+27)/cellsize);
          
@@ -239,9 +174,11 @@ function draw() {
 
    //draw sprites
    //for each ring...
-   for(let j=0; j<ring_count; j++){
+   for(let j=0; j<ring_count; j++)
+   {
      //for each element in a ring...
-     for(let i=0; i <ring_num; i++){
+     for(let i=0; i <ring_num; i++)
+     {
       
       let rot_dir = -1;
    
@@ -260,24 +197,13 @@ function draw() {
        let cent_x=canv_x/2-(img_ar[i%5].width*but1scale/2)+x_off;
        let cent_y=canv_y/2-(img_ar[i%5].height*but1scale/2)+y_off;
        
-       // let cent_x=canv_x/2+x_off;
-       // let cent_y=canv_y/2+y_off-15;
-       // 
-   
-   
-   
-   // but1scale
-        //update and draw eyes
+
         let temp_ar = buttonmast_ar[j];
    
         buttonmast_ar[i+j*ring_num].x = cent_x;
         buttonmast_ar[i+j*ring_num].y = cent_y; 
         
         buttonmast_ar[i+j*ring_num].drawButton();
-   
-        // buttonmast2d_ar[j][i].x = cent_x;
-        // buttonmast2d_ar[j][i].y = cent_y; 
-        // buttonmast2d_ar[j][i].drawButton();
       }
     }
 }
@@ -309,35 +235,8 @@ function split_sprite(org_x, org_y, phaseoff, pixperslice, img_in){
 }
 
 function mousePressed() {
-  // if (song.isPlaying()) {
-  //     // .isPlaying() returns a boolean
-  //     song.stop();
-  // } else {
-  //     song.play();
-  // }
-  
-  // print("mouseX");
-  // print(mouseX);
-  // print("mouseY");
-  // print(mouseY);
-  
-  // print("closed_count");
-  // print(closed_count);
-  // for(let j=0; j<ring_count; j++)
-  // {
-  //   for(let i=0; i <ring_num; i++)
-  //   {
-  //     if(eye_status[i+j*ring_num]==1)
-  //     {
-  //       print("count");
-  //       print(i);
-  //       print("ring");
-  //       print(j);
-  //     }
-  //   }
-  // }
 
-  
+  //scan to see if a button was pressed
   for(let j=0; j<ring_count; j++){
     for(let i=0; i <ring_num; i++){
       
@@ -346,11 +245,11 @@ function mousePressed() {
 
       
       let dist = Math.sqrt((mouseX-cent_x) ** 2 + (mouseY-cent_y) ** 2)
-
-  
       if(dist<30){
         if(buttonmast_ar[i+j*ring_num].isopen==true){
            // buttonmast_ar[i+j*ring_num].img = pixeyeclosed_img;
+           
+                 //blendMode(MULTIPLY);  
            
            if((i==0)&(j==0))
            {
@@ -376,16 +275,11 @@ function mousePressed() {
            }
            buttonmast_ar[i+j*ring_num].isopen=true;
          }
+         
+               //blendMode(BLEND);  
       }
     }
   }
-}
-
-function drawcell(x_pos, y_pos)
-{
-  fill(255);
-  rectMode(CORNER);
-  rect(x_pos*cellsize,y_pos*cellsize,cellsize,cellsize);
 }
 
 function breshhamlerp(x0,y0,x1,y1)
@@ -440,6 +334,13 @@ function breshhamlerp(x0,y0,x1,y1)
 
   
   
+}
+
+function drawcell(x_pos, y_pos)
+{
+  fill(255);
+  rectMode(CORNER);
+  rect(x_pos*cellsize,y_pos*cellsize,cellsize,cellsize);
 }
 
 function keyPressed() {
