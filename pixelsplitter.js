@@ -59,7 +59,7 @@ let canonmode=false;
 function preload() {
   song = loadSound('data/cinnabarDEMO1.mp3');
   
-  bkg_img = loadImage('data/mountains.jpg'); // Load the image
+  bkg_img = loadImage('data/mountains.png'); // Load the image
   chest_img = loadImage('data/chest.png');
   chestopen_img = loadImage('data/chest-open.png');
   bluestar_img = loadImage('data/bluestar.png');
@@ -338,9 +338,11 @@ function breshhamlerp(x0,y0,x1,y1)
 
 function drawcell(x_pos, y_pos)
 {
-  fill(255);
+  //fill(255);
   rectMode(CORNER);
-  rect(x_pos*cellsize,y_pos*cellsize,cellsize,cellsize);
+  noStroke();
+  // rect(x_pos*cellsize,y_pos*cellsize,cellsize,cellsize);
+  image(pixeyeclosed_img,x_pos*cellsize,y_pos*cellsize);
 }
 
 function keyPressed() {
