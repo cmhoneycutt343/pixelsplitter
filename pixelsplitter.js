@@ -342,7 +342,7 @@ function drawcell(x_pos, y_pos)
   rectMode(CORNER);
   noStroke();
   // rect(x_pos*cellsize,y_pos*cellsize,cellsize,cellsize);
-  image(pixeyeclosed_img,x_pos*cellsize,y_pos*cellsize);
+    image(pixeyeclosed_img,x_pos*cellsize,y_pos*cellsize);
 }
 
 function keyPressed() {
