@@ -57,7 +57,7 @@ let issongplaying = false;
 let canonmode=false;
 
 function preload() {
-  song = loadSound('data/cinnabarDEMO1.mp3');
+  //song = loadSound('data/cinnabarDEMO1.mp3');
   
   bkg_img = loadImage('data/mountains.png'); // Load the image
   chest_img = loadImage('data/chest.png');
