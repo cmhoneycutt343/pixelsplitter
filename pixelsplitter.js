@@ -158,14 +158,23 @@ function draw() {
        if(int(closedeye_indices[i]/ring_num) == int(closedeye_indices[j]/ring_num))
        {
          //start line
-         eye_cellx1=int((buttonmast_ar[closedeye_indices[i]].x+50)/cellsize);
-         eye_celly1=int((buttonmast_ar[closedeye_indices[i]].y+27)/cellsize);
-
-         //end line
-         eye_cellx2=int((buttonmast_ar[closedeye_indices[j]].x+50)/cellsize);
-         eye_celly2=int((buttonmast_ar[closedeye_indices[j]].y+27)/cellsize);
+         // eye_cellx1=int((buttonmast_ar[closedeye_indices[i]].x+50)/cellsize);
+         // eye_celly1=int((buttonmast_ar[closedeye_indices[i]].y+27)/cellsize);
+         // 
+         // //end line
+         // eye_cellx2=int((buttonmast_ar[closedeye_indices[j]].x+50)/cellsize);
+         // eye_celly2=int((buttonmast_ar[closedeye_indices[j]].y+27)/cellsize);
+         // 
+         // // breshhamlerp(eye_cellx1,eye_celly1,eye_cellx2,eye_celly2);
          
-         breshhamlerp(eye_cellx1,eye_celly1,eye_cellx2,eye_celly2);
+         eye_cellx1=int((buttonmast_ar[closedeye_indices[i]].x+50));
+         eye_celly1=int((buttonmast_ar[closedeye_indices[i]].y+27));
+         
+         //end line
+         eye_cellx2=int((buttonmast_ar[closedeye_indices[j]].x+50));
+         eye_celly2=int((buttonmast_ar[closedeye_indices[j]].y+27));
+         
+         line(eye_cellx1,eye_celly1,eye_cellx2,eye_celly2);
        }
      }
    }
@@ -285,10 +294,8 @@ function mousePressed() {
 function breshhamlerp(x0,y0,x1,y1)
 { 
   
-  
   drawcell(x0,y0);
   drawcell(x1,y1);
-  
   
   let dx = abs(x1 - x0);
   let sx = x0 < x1 ? 1 : -1;
@@ -317,23 +324,7 @@ function breshhamlerp(x0,y0,x1,y1)
     
     // break;
   }
-  
-  // let iters = abs(x1 - x0);
-  // for(let i=0;i<iters;i++)
-  // {
-  //   drawcell(i+x0,y)
-  // 
-  //   if(D>0)
-  //   {
-  //     y=y+1;
-  //     D=D-(2*dx);
-  //   } 
-  //   D=D+(2*dy);
-  // 
-  // }
-
-  
-  
+    
 }
 
 function drawcell(x_pos, y_pos)
