@@ -23,6 +23,8 @@ let ampli=8;
 let period = 4.5;
 let ringphs_shift=0;
 
+let cornerbuttonsize = 60;
+
 let cellsize = 3; //
 
 let ring_count = 4;
@@ -289,6 +291,47 @@ function mousePressed() {
       }
     }
   }
+  
+  
+  //check if cornern buttons were pressed...
+  if ((mouseX<cornerbuttonsize)&(mouseY<cornerbuttonsize)) {
+    if(ring_count<4)
+    {
+      ring_count++;
+      setup();
+    }
+  } else if ((mouseX<cornerbuttonsize)&(mouseY>(canv_y-cornerbuttonsize))) {
+    if(ring_count>1)
+    {
+      ring_count--;
+      setup();
+    }
+  }
+  else if ((mouseX>(canv_x-cornerbuttonsize))&(mouseY>(canv_y-cornerbuttonsize))) {
+    if(ring_num>2)
+    {
+      ring_num--;
+      setup();
+    }
+  }
+  else if ((mouseX>(canv_x-cornerbuttonsize))&(mouseY<cornerbuttonsize)) {
+    if(ring_num<9)
+    {
+      ring_num++;
+      setup();
+    }
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 }
 
 function breshhamlerp(x0,y0,x1,y1)
