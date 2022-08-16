@@ -50,6 +50,7 @@ let testbutton;
 let ringbutton_ar=[];
 let buttonmast_ar=[];
 let buttonmast2d_ar=[];
+let textSecrets=[];
 
 let eye_status=[];
 let closedeye_indices=[];
@@ -58,19 +59,16 @@ let closed_count;
 let issongplaying = false;
 let canonmode=false;
 
-function preload() {
+let currentbackgroundstring = "";
+
+function preload() 
+{
   //song = loadSound('data/cinnabarDEMO1.mp3');
   
   bkg_img = loadImage('data/mountains.jpg'); // Load the image
   chest_img = loadImage('data/chest.png');
   chestopen_img = loadImage('data/chest-open.png');
   bluestar_img = loadImage('data/bluestar.png');
-  
-  // pixeye1_img = loadImage('data/lowpixeye1.png');
-  // pixeye2_img = loadImage('data/lowpixeye2.png');
-  // pixeye3_img = loadImage('data/lowpixeye3.png');
-  // pixeye4_img = loadImage('data/lowpixeye4.png');
-  // pixeye5_img = loadImage('data/lowpixeye5.png');
   
   pixeye1_img = loadImage('data/amyeye-small-3b.png');
   pixeye2_img = loadImage('data/amyeye-small-3b.png');
@@ -99,7 +97,6 @@ function setup() {
   //instantiate classes
   testbutton = new EyeButton(100,100,0,1,chest_img);
   
-  
   //create buttons for each eye
   for (let j=0; j<ring_count; j++)
   {
@@ -117,39 +114,26 @@ function setup() {
     }
     buttonmast2d_ar[j]=ringbutton_ar;
   }
+  
+  
+
+  textSecrets[0] = new TextSecret(4,5,[0],"hello");
+  textSecrets[1] = new TextSecret(4,5,[0,1,4],"goodbyte");
+  textSecrets[2] = new TextSecret(4,5,[0,2,3],"question everything");
 }
 
 function draw() {
 
    //load background
-   if(draw_bkg==true){
-     image(bkg_img, 0,0,canv_x, canv_y);
-   }
- // 
-   
-   closed_count=0;
-   //update the 'closed eye' matrix
-   //and counts eyes that are closed
-   closedeye_indices.fill(0);
-   
-   //scan all buttons to see which ones are closed
-   for(let j=0; j<ring_count; j++)
+   if(draw_bkg==true)
    {
-     for(let i=0; i <ring_num; i++)
-     {
-       if(buttonmast_ar[i+j*ring_num].isopen==false)
-       {
-           eye_status[i+j*ring_num]=1;
-           closedeye_indices[closed_count]=i+j*ring_num;
-           closed_count++;
-       }
-       else 
-       {
-         eye_status[i+j*ring_num]=0;
-       }
-     }
+     image(bkg_img, 0,0,canv_x, canv_y);
+     
+     textSize(32);
+     textAlign(CENTER);
+     fill(255,0,0);
+     text(currentbackgroundstring, canv_x/2, canv_y/2);
    }
-   
    
    //scan all closed eyes and draw lines between them
    for(let i=0; i<closed_count;i++)
@@ -180,9 +164,7 @@ function draw() {
        }
      }
    }
-
-
-
+   
    //draw sprites
    //for each ring...
    for(let j=0; j<ring_count; j++)
@@ -217,6 +199,12 @@ function draw() {
         buttonmast_ar[i+j*ring_num].drawButton();
       }
     }
+    
+    
+    
+    
+    
+    
 }
 
 
@@ -245,11 +233,14 @@ function split_sprite(org_x, org_y, phaseoff, pixperslice, img_in){
  
 }
 
-function mousePressed() {
+function mousePressed() 
+{
 
   //scan to see if a button was pressed
-  for(let j=0; j<ring_count; j++){
-    for(let i=0; i <ring_num; i++){
+  for(let j=0; j<ring_count; j++)
+  {
+    for(let i=0; i <ring_num; i++)
+    {
       
       var cent_x=(img_ar[i%5].width*but1scale/2)+buttonmast_ar[i+j*ring_num].x;
       var cent_y=(img_ar[i%5].height*but1scale/2)+buttonmast_ar[i+j*ring_num].y;
@@ -292,29 +283,33 @@ function mousePressed() {
     }
   }
   
-  
   //check if cornern buttons were pressed...
-  if ((mouseX<cornerbuttonsize)&(mouseY<cornerbuttonsize)) {
+  if ((mouseX<cornerbuttonsize)&(mouseY<cornerbuttonsize)) 
+  {
     if(ring_count<4)
     {
       ring_count++;
       setup();
     }
-  } else if ((mouseX<cornerbuttonsize)&(mouseY>(canv_y-cornerbuttonsize))) {
+  } 
+  else if ((mouseX<cornerbuttonsize)&(mouseY>(canv_y-cornerbuttonsize))) 
+  {
     if(ring_count>1)
     {
       ring_count--;
       setup();
     }
   }
-  else if ((mouseX>(canv_x-cornerbuttonsize))&(mouseY>(canv_y-cornerbuttonsize))) {
+  else if ((mouseX>(canv_x-cornerbuttonsize))&(mouseY>(canv_y-cornerbuttonsize))) 
+  {
     if(ring_num>2)
     {
       ring_num--;
       setup();
     }
   }
-  else if ((mouseX>(canv_x-cornerbuttonsize))&(mouseY<cornerbuttonsize)) {
+  else if ((mouseX>(canv_x-cornerbuttonsize))&(mouseY<cornerbuttonsize)) 
+  {
     if(ring_num<9)
     {
       ring_num++;
@@ -322,21 +317,39 @@ function mousePressed() {
     }
   }
   
+  closed_count=0;
+  closedeye_indices=[];
+  //update the 'closed eye' matrix
+  //and counts eyes that are closed
+  closedeye_indices.fill(0);
   
+  //scan all buttons to see which ones are closed
+  for(let j=0; j<ring_count; j++)
+  {
+    for(let i=0; i <ring_num; i++)
+    {
+      if(buttonmast_ar[i+j*ring_num].isopen==false)
+      {
+          eye_status[i+j*ring_num]=1;
+          closedeye_indices[closed_count]=i+j*ring_num;
+          closed_count++;
+      }
+      else 
+      {
+        eye_status[i+j*ring_num]=0;
+      }
+    }
+  }
   
+  print(ring_count);
+  print(ring_num);
+  print(closedeye_indices);
   
-  
-  
-  
-  
-  
-  
-  
+  updateBkgText();
 }
 
 function breshhamlerp(x0,y0,x1,y1)
-{ 
-  
+{
   drawcell(x0,y0);
   drawcell(x1,y1);
   
@@ -379,7 +392,8 @@ function drawcell(x_pos, y_pos)
     image(pixeyeclosed_img,x_pos*cellsize,y_pos*cellsize);
 }
 
-function keyPressed() {
+function keyPressed() 
+{
   if (keyCode === LEFT_ARROW) {
     if(ring_count<4)
     {
@@ -407,3 +421,52 @@ function keyPressed() {
   setup();
 }
 
+function updateBkgText()
+{
+  //check all secrets for a match
+  for(let i=0; i<textSecrets.length;i++)
+  {
+    //check ring count
+    if(textSecrets[i].ring_count==ring_count)
+    {
+      //checkl ring num
+      if(textSecrets[i].ring_num==ring_num)
+      {
+        
+        // print("textSecrets[i].indices");
+        // print(textSecrets[i].indices);
+        // print("closedeye_indices");
+        // print(closedeye_indices);
+        
+        set1 = new Set(textSecrets[i].indices);
+        set2 = new Set(closedeye_indices);
+        
+        if(setsAreEqual(set1,set2))
+        {
+          print("match found");
+          currentbackgroundstring = textSecrets[i].text;
+          break;
+        }
+        else {
+          currentbackgroundstring = "";
+        }
+        
+        print("currentbackgroundstring");
+        print(currentbackgroundstring);
+      }
+    }
+    
+  }
+  
+}
+
+
+function setsAreEqual(a, b) {
+  if (a.size !== b.size) {
+    return false;
+  }
+
+  return Array.from(a).every(element => {
+    return b.has(element);
+  });
+}
