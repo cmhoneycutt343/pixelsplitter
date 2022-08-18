@@ -115,12 +115,8 @@ function setup() {
     buttonmast2d_ar[j]=ringbutton_ar;
   }
   
-  
-
-  textSecrets[0] = new TextSecret(4,5,[0],"hello");
-  textSecrets[1] = new TextSecret(4,5,[0,1,4],"goodbyte");
-  textSecrets[2] = new TextSecret(4,5,[0,2,3],"question everything");
-}
+  buildsecrets();
+  }
 
 function draw() {
 
@@ -128,11 +124,7 @@ function draw() {
    if(draw_bkg==true)
    {
      image(bkg_img, 0,0,canv_x, canv_y);
-     
-     textSize(32);
-     textAlign(CENTER);
-     fill(255,0,0);
-     text(currentbackgroundstring, canv_x/2, canv_y/2);
+    
    }
    
    //scan all closed eyes and draw lines between them
@@ -202,7 +194,11 @@ function draw() {
     
     
     
-    
+    textSize(32);
+    textAlign(CENTER);
+    stroke(0,0,0);
+    fill(255,255,255);
+    text(currentbackgroundstring, canv_x/2, canv_y/2);
     
     
 }
@@ -341,9 +337,7 @@ function mousePressed()
     }
   }
   
-  print(ring_count);
-  print(ring_num);
-  print(closedeye_indices);
+
   
   updateBkgText();
 }

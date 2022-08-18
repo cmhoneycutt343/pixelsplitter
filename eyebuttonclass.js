@@ -1,7 +1,5 @@
 class EyeButton {
   
-  
-  
   constructor(org_x, org_y, phaseoff, pixperslice, img_in, scale_in){
     this.x = org_x;
     this.y = org_y;
@@ -17,3 +15,4 @@ class EyeButton {
     return 0;
   }
 }
+
