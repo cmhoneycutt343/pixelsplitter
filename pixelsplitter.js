@@ -337,7 +337,9 @@ function mousePressed()
     }
   }
   
-
+  print(ring_count);
+  print(ring_num);
+  print(closedeye_indices);
   
   updateBkgText();
 }
