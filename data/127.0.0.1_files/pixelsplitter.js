@@ -17,11 +17,9 @@ p5.disableFriendlyErrors = true
 
 let canv_x = 1024;
 let canv_y = 768;
-let rot_off=false;
 
 let img; // Declare variable 'img'.
-let img1scale = 0.4;
-let img2scale = 0.75;
+let img1scale = 0.25;
 let but1scale = 0.5;
 let bkg_imgscale = 6;
 let draw_bkg = true;
@@ -76,10 +74,7 @@ function preload() {
   bkg_imgmountains = loadImage('data/mountains.jpg'); // Load the image
   bkg_img = loadImage('data/ktltpix.png'); // Load the image
   
-  qr_img = loadImage('data/qreyewhite.png');
-  glow_img = loadImage('data/goldenglow.png');
-  skydi_img = loadImage('data/skydiamond.png');
-  // qr_img = loadImage('data/transman.gif');
+  qr_img = loadImage('data/psQR.png');
   
   chest_img = loadImage('data/chest.png');
   chestopen_img = loadImage('data/chest-open.png');
@@ -117,7 +112,7 @@ function setup() {
   //create buttons for each eye
   for (let j = 0; j < ring_count; j++) {
     for (let i = 0; i < ring_num; i++) {
-      if ((i == 0) & (j == 0)|(i==0)) {
+      if ((i == 0) & (j == 0)) {
         ringbutton_ar[i] = new EyeButton(100, 100, 0, 1, pixeye_primeclosed, but1scale);
       } else {
         ringbutton_ar[i] = new EyeButton(100, 100, 0, 1, pixeye1_img, but1scale);
@@ -155,7 +150,7 @@ function draw() {
           let bkgshade_ind = 20 * (horz_progcnt + vert_progcnt);
           let bkgshade = sin(((frameCount + bkgshade_ind) + 10) / (TWO_PI * 10)) * 100;
 
-          bkg_imgscale = bkgshade/160+12;
+          bkg_imgscale = bkgshade/100+12;
 
           //tint(20, 20, 20);
 
@@ -214,7 +209,7 @@ function draw() {
         // //end line
         // eye_cellx2=int((buttonmast_ar[closedeye_indices[j]].x+50)/cellsize);
         // eye_celly2=int((buttonmast_ar[closedeye_indices[j]].y+27)/cellsize);
-        // live
+        // 
         // // breshhamlerp(eye_cellx1,eye_celly1,eye_cellx2,eye_celly2);
 
         eye_cellx1 = int((buttonmast_ar[closedeye_indices[i]].x + 50));
@@ -244,8 +239,6 @@ function draw() {
         rot_dir = 1;
       }
 
-      if(rot_off==true){rot_dir = 0;}
-      
 
       let x_off = ring_rad * (j + 1) * sin((i / ring_num + (frameCount + j * ringphs_shift) * rot_dir / T_one) * TWO_PI);
       let y_off = ring_rad * (j + 1) * cos((i / ring_num + (frameCount + j * ringphs_shift) * rot_dir / T_two) * TWO_PI);
@@ -273,38 +266,12 @@ function draw() {
   text(currentbackgroundstring, canv_x / 2, canv_y / 2);
   
   if(isProjectorVersion){
-    
-    colorMode(HSB);
-    
-    let c = color(255,255,255);
-    fill(c);
-    
-    //rect(canv_x/2-120,canv_y/2-120, 250, 250);
-  
-    split_sprite(canv_x/2-(skydi_img.width/2)*img1scale,canv_y/2-(skydi_img.height/2)*img1scale,1,100,skydi_img);
-    
-  blendMode(LIGHTEST);
-    //glow
-    image(glow_img,canv_x/2-(glow_img.width/2)*img2scale,canv_y/2-(glow_img.height/2)*img2scale,glow_img.width*img2scale,glow_img.height*img2scale);
-  
-
-  
-    blendMode(MULTIPLY);
-    split_sprite(canv_x/2-(qr_img.width/2)*img1scale,canv_y/2-(qr_img.height/2)*img1scale,1,100,qr_img);
-    
-    blendMode(BLEND);
-  
-
-    
-    
-    
-    
-    
+    split_sprite(canv_x/2-120,canv_y/2-120,1,100,qr_img);
   }
   // image(bluestar_img, 0,0);
 }
 
-function split_sprite(org_x, org_y, phaseoff, pixperslice, img_in, back) {
+function split_sprite(org_x, org_y, phaseoff, pixperslice, img_in) {
 
   // ampli=mouseX/10; 
   // 
@@ -319,7 +286,8 @@ function split_sprite(org_x, org_y, phaseoff, pixperslice, img_in, back) {
   for (let i = 0; i < numslices; i++) 
   {
   
-    
+  
+  
     xoff = amplitude*sin(((frameCount + phaseoff) + 10 * i) / (TWO_PI * period)) * ampli;
   
     numslices = img_in.height / pixperslice;
@@ -511,11 +479,12 @@ function updateBkgText() {
         }
 
         print("currentbackgroundstring");
-        // print(currentbackgroundstring);
+        print(currentbackgroundstring);
       }
     }
 
   }
+Ò
 }
 
 

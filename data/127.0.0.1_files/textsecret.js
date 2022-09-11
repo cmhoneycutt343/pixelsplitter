@@ -31,10 +31,5 @@ function buildsecrets()
   textSecrets.push(new TextSecret(4,5,[0,1,2,3,4,5,6,7,8,9],"Is a story out of order \n a world without time?"));
   textSecrets.push(new TextSecret(4,5,[1,2,3,4,5,6,7,8,9],"Can a story exist \n without someone to perceive it?"));
 
-  textSecrets.push(new TextSecret(4,5,[6,7,8,9],"\"Me? \n Oh fucking Hell\""));
-  textSecrets.push(new TextSecret(4,5,[11,12,13,14],"\"I'd rather not\""));
-  textSecrets.push(new TextSecret(4,5,[16,17,18,19],"\"Uh - Bloody Ridiculous\""));
-
-
   
 }
