@@ -17,7 +17,7 @@ p5.disableFriendlyErrors = true
 
 let canv_x = 1024;
 let canv_y = 768;
-let rot_off=true;
+let rot_off=false;
 
 let img; // Declare variable 'img'.
 let img1scale = 0.4;
